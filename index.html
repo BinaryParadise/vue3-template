@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="vue/index.css">
     <!-- import JavaScript -->
     <script src="vue/element-plus.js"></script>
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/light.css">
     <title>Element Plus demo</title>
 </head>
 
 <body>
     <div id="app">
-        <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+        <el-menu mode="horizontal" @select="handleSelect">
             <el-sub-menu index="1">
                 <template #title>工具中心</template>
                 <el-menu-item index="1-1">日志浏览</el-menu-item>
@@ -25,28 +25,65 @@
                 <el-menu-item index="2-1">Vue Center</el-menu-item>
             </el-sub-menu>
         </el-menu>
-        <el-tabs v-model="curTab" type="card" closable @edit="handleTabsEdit">
-            <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.title" :name="item.name">
-                {{ item.content }}
-            </el-tab-pane>
-        </el-tabs>
+        <el-row :style="'height:'+screenHeight+'px;padding:16px;'">
+            <el-col>
+                <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab" type="border-card" closable
+                    @edit="handleTabsEdit" :style="'height:'+(screenHeight-40)+'px;'">
+                    <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
+                        <div>a</div>
+                    </el-tab-pane>
+                </el-tabs>
+            </el-col>
+        </el-row>
     </div>
     <script>
         const App = {
             data() {
                 return {
-                    activeIndex: "1",
                     message: "Hello Element Plus",
-                    curTab: {},
+                    screenHeight: document.body.clientHeight - 59,
+                    menus: {
+                        '1-1': '日志浏览',
+                        '1-2': 'WebSocket',
+                        '2-1': 'Vue Center'
+                    },
+                    activeTab: null,
                     dynamicTabs: []
                 };
             },
+            mounted: function () {
+                const obj = this
+                window.onresize = () => {
+                    return (() => {
+                        window.screenHeight = document.body.clientHeight - 59;
+                        obj.screenHeight = window.screenHeight;
+                    })()
+                };
+            },
+            watch: {
+                screenHeight(val) {
+                    // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+                    if (!this.timer) {
+                        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+                        this.screenHeight = val
+                        this.timer = true
+                        let that = this
+                        setTimeout(function () {
+                            // 打印screenWidth变化的值
+                            console.log(that.screenHeight)
+                            that.timer = false
+                        }, 400)
+                    }
+                }
+            },
             methods: {
                 handleSelect: function (val) {
-                    console.log(val);
+                    var curTab = { name: 'tab-' + val, label: this.menus[val] };
+                    this.activeTab = curTab.name;
+                    this.dynamicTabs.push(curTab);
                 },
                 handleTabsEdit: function (val) {
-
+                    console.log(val);
                 }
             }
         };
