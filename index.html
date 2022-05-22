@@ -12,7 +12,7 @@
     <title>Element Plus demo</title>
 </head>
 
-<body>
+<body lang="zh-cn">
     <div id="app">
         <el-menu mode="horizontal" @select="handleSelect">
             <el-sub-menu index="1">
@@ -30,7 +30,19 @@
                 <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab" type="border-card" closable
                     @edit="handleTabsEdit" :style="'height:'+(screenHeight-40)+'px;'">
                     <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
-                        <div>a</div>
+                        <el-row>
+                            <el-col>
+                                <el-pagination background layout="prev, pager, next" :total="1000" />
+                            </el-col>
+                            <el-col>
+                                <el-table :data="table.data" stripe border>
+                                    <el-table-column prop="name" label="名称"></el-table-column>
+                                </el-table>
+                            </el-col>
+                            <el-col>
+                                <el-pagination background layout="prev, pager, next" :total="1000" />
+                            </el-col>
+                        </el-row>
                     </el-tab-pane>
                 </el-tabs>
             </el-col>
@@ -40,6 +52,9 @@
         const App = {
             data() {
                 return {
+                    table: {
+                        data: Array.from(100).fill({ a: 1 }, 0)
+                    },
                     message: "Hello Element Plus",
                     screenHeight: document.body.clientHeight - 59,
                     menus: {
@@ -53,6 +68,9 @@
             },
             mounted: function () {
                 const obj = this
+                for (let i = 0; i < 20; i++) {
+                    this.table.data.push({ name: i });
+                }
                 window.onresize = () => {
                     return (() => {
                         window.screenHeight = document.body.clientHeight - 59;
