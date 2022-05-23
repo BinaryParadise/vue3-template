@@ -13,40 +13,55 @@
 </head>
 
 <body lang="zh-cn">
-    <div id="app">
-        <el-menu mode="horizontal" @select="handleSelect">
-            <el-sub-menu index="1">
-                <template #title>工具中心</template>
-                <el-menu-item index="1-1">日志浏览</el-menu-item>
-                <el-menu-item index="1-2">WebSocket</el-menu-item>
-            </el-sub-menu>
-            <el-sub-menu index="2">
-                <template #title>学习中心</template>
-                <el-menu-item index="2-1">Vue Center</el-menu-item>
-            </el-sub-menu>
-        </el-menu>
-        <el-row :style="'height:'+screenHeight+'px;padding:16px;'">
-            <el-col>
-                <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab" type="border-card" closable
-                    @edit="handleTabsEdit" :style="'height:'+(screenHeight-40)+'px;'">
-                    <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
-                        <el-row>
-                            <el-col>
-                                <el-pagination background layout="prev, pager, next" :total="1000" />
-                            </el-col>
-                            <el-col>
-                                <el-table :data="table.data" stripe border>
-                                    <el-table-column prop="name" label="名称"></el-table-column>
-                                </el-table>
-                            </el-col>
-                            <el-col>
-                                <el-pagination background layout="prev, pager, next" :total="1000" />
-                            </el-col>
-                        </el-row>
-                    </el-tab-pane>
-                </el-tabs>
-            </el-col>
-        </el-row>
+    <div id="app" lang="zh-cn">
+        <el-container class="main-layout">
+            <el-aside width="200px" style="height: 100vh;">
+                <el-scrollbar>
+                    <el-menu :default-openeds="['1', '2']" @select="handleSelect">
+                        <el-sub-menu index="1">
+                            <template #title>工具中心</template>
+                            <el-menu-item index="1-1">日志浏览</el-menu-item>
+                            <el-menu-item index="1-2">WebSocket</el-menu-item>
+                        </el-sub-menu>
+                        <el-sub-menu index="2">
+                            <template #title>学习中心</template>
+                            <el-menu-item index="2-1">Vue Center</el-menu-item>
+                        </el-sub-menu>
+                    </el-menu>
+                </el-scrollbar>
+            </el-aside>
+            <el-container>
+                <el-header>
+                    <h1>标题</h1>
+                </el-header>
+                <el-main>
+                    <el-row :style="'height:'+screenHeight+'px;padding:16px;'">
+                        <el-col>
+                            <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab"
+                                type="border-card" closable @edit="handleTabsEdit"
+                                :style="'height:'+(screenHeight-40)+'px;'">
+                                <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label"
+                                    :name="item.name">
+                                    <el-row>
+                                        <el-col>
+                                            <el-pagination background layout="prev, pager, next" :total="1000" />
+                                        </el-col>
+                                        <el-col>
+                                            <el-table :data="table.data" stripe border>
+                                                <el-table-column prop="name" label="名称"></el-table-column>
+                                            </el-table>
+                                        </el-col>
+                                        <el-col>
+                                            <el-pagination background layout="prev, pager, next" :total="1000" />
+                                        </el-col>
+                                    </el-row>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </el-col>
+                    </el-row>
+                </el-main>
+            </el-container>
+        </el-container>
     </div>
     <script>
         const App = {
@@ -98,10 +113,19 @@
                 handleSelect: function (val) {
                     var curTab = { name: 'tab-' + val, label: this.menus[val] };
                     this.activeTab = curTab.name;
-                    this.dynamicTabs.push(curTab);
+                    if (this.dynamicTabs.filter(item => item.name == curTab.name).length == 0) {
+                        this.dynamicTabs.push(curTab);
+                    }
                 },
-                handleTabsEdit: function (val) {
-                    console.log(val);
+                handleTabsEdit: function (val, action) {
+                    if (action == "remove") {
+                        var olds = this.dynamicTabs;
+                        this.dynamicTabs = olds.filter(item => item.name != val);
+                        if (val == this.activeTab) {
+                            var old_idx = olds.indexOf(olds.filter(item => item.name == val)[0]);
+                            this.activeTab = this.dynamicTabs[Math.min(this.dynamicTabs.length - 1, old_idx)].name;
+                        }
+                    }
                 }
             }
         };
