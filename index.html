@@ -1,32 +1,31 @@
 <html>
 
-<head>
+<head class="dark">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <script src="vue/vue@next.js"></script>
+    <script src="vue/vue.js"></script>
     <!-- import CSS -->
-    <link rel="stylesheet" href="vue/index.css">
+    <link rel="stylesheet" href="vue/element-ui.css">
     <!-- import JavaScript -->
-    <script src="vue/element-plus.js"></script>
-    <link rel="stylesheet" href="css/light.css">
+    <script src="vue/element-ui.js"></script>
+    <link rel="stylesheet" href="css/dark.css">
     <title>Element Plus demo</title>
 </head>
 
 <body lang="zh-cn">
-    <div id="app" lang="zh-cn">
+    <div id="main_app" lang="zh-cn">
         <el-container class="main-layout">
             <el-aside width="200px" style="height: 100vh;">
                 <el-scrollbar>
-                    <el-menu :default-openeds="['1', '2']" @select="handleSelect">
-                        <el-sub-menu index="1">
-                            <template #title>工具中心</template>
-                            <el-menu-item index="1-1">日志浏览</el-menu-item>
-                            <el-menu-item index="1-2">WebSocket</el-menu-item>
-                        </el-sub-menu>
-                        <el-sub-menu index="2">
-                            <template #title>学习中心</template>
-                            <el-menu-item index="2-1">Vue Center</el-menu-item>
-                        </el-sub-menu>
+                    <el-menu :default-openeds="['1', '2']" @select="handleSelect" background-color="#545c64"
+                        text-color="#fff" active-text-color="#ffd04b">
+                        <el-submenu v-for="menu in menus" :key="menu.key" :index="menu.key">
+                            <template slot="title">
+                                <i class="el-icon-location"></i>
+                                <span>{{menu.title}}</span>
+                            </template>
+                            <el-menu-item v-for="item in menu.child" :key="item.key" :index="item.key">{{item.title}}</el-menu-item>
+                        </el-submenu>
                     </el-menu>
                 </el-scrollbar>
             </el-aside>
@@ -34,7 +33,7 @@
                 <el-header>
                     <h1>标题</h1>
                 </el-header>
-                <el-main>
+                <el-main class="left-menu">
                     <el-row :style="'height:'+screenHeight+'px;padding:16px;'">
                         <el-col>
                             <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab"
@@ -42,19 +41,8 @@
                                 :style="'height:'+(screenHeight-40)+'px;'">
                                 <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label"
                                     :name="item.name">
-                                    <el-row>
-                                        <el-col>
-                                            <el-pagination background layout="prev, pager, next" :total="1000" />
-                                        </el-col>
-                                        <el-col>
-                                            <el-table :data="table.data" stripe border>
-                                                <el-table-column prop="name" label="名称"></el-table-column>
-                                            </el-table>
-                                        </el-col>
-                                        <el-col>
-                                            <el-pagination background layout="prev, pager, next" :total="1000" />
-                                        </el-col>
-                                    </el-row>
+                                    <iframe :src="item.src" :height="screenHeight-125"
+                                        style="border: none;width: 99%;"></iframe>
                                 </el-tab-pane>
                             </el-tabs>
                         </el-col>
@@ -64,7 +52,8 @@
         </el-container>
     </div>
     <script>
-        const App = {
+        const vm = new Vue({
+            el: "#main_app",
             data() {
                 return {
                     table: {
@@ -72,11 +61,14 @@
                     },
                     message: "Hello Element Plus",
                     screenHeight: document.body.clientHeight - 59,
-                    menus: {
-                        '1-1': '日志浏览',
-                        '1-2': 'WebSocket',
-                        '2-1': 'Vue Center'
-                    },
+                    menus: [
+                        {
+                            title: '工具中心', key: '1', child: [{ key: '1-1', title: '日志浏览' },
+                            { key: '1-2', title: 'WebSocket', src: 'ws/index.html' }]
+                        },
+                        { title: '学习中心', key: '2', child: [{ key: '2-1', title: 'Vue Center' }] }
+
+                    ],
                     activeTab: null,
                     dynamicTabs: []
                 };
@@ -110,8 +102,9 @@
                 }
             },
             methods: {
-                handleSelect: function (val) {
-                    var curTab = { name: 'tab-' + val, label: this.menus[val] };
+                handleSelect: function (val, path) {
+                    var item = this.menus.filter(v => v.key == path[1][0])[0].child.filter(v => v.key == val)[0];
+                    var curTab = { name: 'tab-' + val, label: item.title, src: item.src };
                     this.activeTab = curTab.name;
                     if (this.dynamicTabs.filter(item => item.name == curTab.name).length == 0) {
                         this.dynamicTabs.push(curTab);
@@ -128,10 +121,7 @@
                     }
                 }
             }
-        };
-        const app = Vue.createApp(App);
-        app.use(ElementPlus);
-        app.mount("#app");
+        });
     </script>
 </body>
 

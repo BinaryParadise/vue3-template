@@ -1,23 +1,22 @@
 body {
   margin: 0px;
   height: 100%;
+  background-color: #545c64;
+
 }
 
 .main-layout .el-header {
   position: relative;
-  background-color: #181818;
-  color: var(--el-text-color-primary);
-}
-
-.main-layout .el-aside {
-  color: var(--el-text-color-primary);
-  background: #181818;
+  background-color: #545c64;
 }
 
 .main-layout .el-menu {
   border-right: none;
+  background-color: #545c64;
 }
 
 .main-layout .el-main {
   padding: 0;
+  background-color: #f2f3f4;
+
 }

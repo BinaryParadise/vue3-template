@@ -1,0 +1,101 @@
+<html>
+
+<head class="dark">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="../vue/vue.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../vue/element-ui.css">
+    <!-- import JavaScript -->
+    <script src="../vue/element-ui.js"></script>
+    <link rel="stylesheet" href="../css/content.css">
+    <title>Element Plus demo</title>
+</head>
+
+<body lang="zh-cn">
+    <div id="app" lang="zh-cn">
+        <el-row>
+            <el-col :span='6'>
+
+                <el-select v-model="bintype">
+                    <el-option value="arraybuffer" label="arraybuffer"></el-option>
+                    <el-option value="string" label="string"></el-option>
+                </el-select>
+                <el-input v-model="host" placeholder="请输入地址">
+                    <div slot="prepend">
+                        <div><span>ws://</span>
+                        </div>
+                    </div>
+                    <el-button slot="append" type="primary" @click="connect">{{running?'断开':'连接'}}</el-button>
+                </el-input>
+            </el-col>
+            <el-col :span='16'>
+                <el-input v-model="host" placeholder="请输入地址"></el-input>
+            </el-col>
+        </el-row>
+    </div>
+    <script>
+
+        const GUID = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        };
+
+
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    host: '',
+                    clientid: "",
+                    bintype: "arraybuffer",
+                    running: false,
+                    wsock: {},
+                    getWSUrl: function () {
+                        return 'ws://' + this.host + "?clientid=" + this.clientid;
+                    }
+                };
+            },
+            created: function () {
+                this.host = localStorage.getItem("wsut_host");
+                if (localStorage.getItem("wsut_cid") == undefined) {
+                    localStorage.setItem("wsut_cid", GUID());
+                }
+                this.clientid = localStorage.getItem("wsut_cid");
+            },
+            methods: {
+                connect: function () {
+                    if (this.running) {
+                        this.wsock.close();
+                        return;
+                    }
+                    localStorage.setItem("wsut_host", this.host);
+                    var obj = this;
+                    var ws = WebSocket === undefined ? new window.MozWebSocket(obj.getWSUrl()) : new WebSocket(obj.getWSUrl());
+                    ws.binaryType = obj.bintype;
+                    ws.onopen = function () {
+                        console.log('onopen');
+                        obj.running = true;
+                    };
+                    ws.onmessage = function (result) {
+                        if (result.data instanceof ArrayBuffer) {
+                            var decoder = new TextDecoder("utf-8");
+                            var obj = JSON.parse(decoder.decode(result.data));
+                        }
+                    };
+                    ws.onerror = function (e) {
+                        console.error(e);
+                    };
+                    ws.onclose = function () {
+                        obj.running = false;
+                    };
+                    obj.wsock = ws;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
