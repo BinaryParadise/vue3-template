@@ -18,8 +18,8 @@
             <el-col :span='6'>
 
                 <el-select v-model="bintype">
+                    <el-option value="blob" label="blob"></el-option>
                     <el-option value="arraybuffer" label="arraybuffer"></el-option>
-                    <el-option value="string" label="string"></el-option>
                 </el-select>
                 <el-input v-model="host" placeholder="请输入地址">
                     <div slot="prepend">
@@ -50,7 +50,7 @@
                 return {
                     host: '',
                     clientid: "",
-                    bintype: "arraybuffer",
+                    bintype: "blob",
                     running: false,
                     wsock: {},
                     getWSUrl: function () {
@@ -74,7 +74,9 @@
                     localStorage.setItem("wsut_host", this.host);
                     var obj = this;
                     var ws = WebSocket === undefined ? new window.MozWebSocket(obj.getWSUrl()) : new WebSocket(obj.getWSUrl());
-                    ws.binaryType = obj.bintype;
+                    if (obj.bintype == "arraybuffer") {
+                        ws.binaryType = obj.bintype;
+                    }
                     ws.onopen = function () {
                         console.log('onopen');
                         obj.running = true;
