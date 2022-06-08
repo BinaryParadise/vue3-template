@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div id="app"></div>
+    <script src="js/vue/vue.js"></script>
+    <script src="js/vue/vue2-sfc-loader.js"></script>
+    <script>
+        const { loadModule, vueVersion } = window['vue2-sfc-loader'];
+
+        const options = {
+            moduleCache: {
+                vue: Vue,
+                myData: {
+                    vueVersion,
+                }
+            },
+            async getFile(url) {
+                const res = await fetch(url);
+                return res.text();
+            },
+            addStyle() { /* unused here */ },
+        }
+
+        loadModule('js/component/main.menu.vue', options)
+            .then(component => new Vue(component).$mount('#app'));
+    </script>
+</body>
+
+</html>

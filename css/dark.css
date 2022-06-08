@@ -5,18 +5,24 @@ body {
 
 }
 
-.main-layout .el-header {
-  position: relative;
-  background-color: #545c64;
-}
-
-.main-layout .el-menu {
+.main-layout .left-menu {
   border-right: none;
+  height: 100vh;
   background-color: #545c64;
 }
 
-.main-layout .el-main {
-  padding: 0;
-  background-color: #f2f3f4;
+.main-layout .nav-head {
+  position: relative;
+  background-color: #f3f2f1;
+  border-spacing: 0px;
+  border-bottom: solid 1px #D7D7D7;
+}
 
+.nav-title {
+  color: #666666;
+}
+
+.main-layout .main-content {
+  padding: 0;
+  background-color: #FAFAFA;
 }
