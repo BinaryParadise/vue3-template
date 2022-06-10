@@ -6,15 +6,62 @@
     <script src="js/vue/vue.js"></script>
     <!-- import CSS -->
     <link rel="stylesheet" href="js/vue/element-ui.css">
+    <link rel="stylesheet" href="css/dark.css">
     <!-- import JavaScript -->
     <script src="js/vue/element-ui.js"></script>
     <script src="js/vue/vue2-sfc-loader.js"></script>
-    <link rel="stylesheet" href="css/dark.css">
     <title>Element Plus demo</title>
 </head>
 
 <body lang="zh-cn">
     <div id="main_app" lang="zh-cn">
+        <el-container class="main-layout">
+
+            <el-aside width="200px" class="left-menu">
+                <el-row>
+                    <el-col>
+                        <el-scrollbar>
+                            <el-menu :default-openeds="['1','2']" unique-opened @select="handleSelect"
+                                background-color="#2A3F54" text-color="#fff" active-text-color="#ffd04b">
+                                <el-submenu v-for="menu in menus" :key="menu.key" :index="menu.key">
+                                    <template slot="title">
+                                        <i class="el-icon-menu"></i><span>{{ menu.title }}</span>
+                                    </template>
+                                    <el-menu-item v-for="item in menu.child" :key="item.key" :index="item.key">
+                                        <i class="el-icon-document"></i>
+                                        <template slot="title">
+                                            <span>{{ item.title }}</span>
+                                        </template>
+                                    </el-menu-item>
+                                </el-submenu>
+                            </el-menu>
+                        </el-scrollbar>
+                    </el-col>
+                </el-row>
+            </el-aside>
+            <el-container>
+                <el-header class="nav-head">
+                    <h1 class="nav-title">
+                        标题
+                    </h1>
+                </el-header>
+                <el-main class="main-content">
+                    <el-row :style="'height:' + screenHeight + 'px;padding:12px 12px 0 12px;'">
+                        <el-col>
+                            <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab.name" class="maintab"
+                                type="border-card" closable @edit="handleTabsEdit"
+                                :style="'height:' + (screenHeight - 40) + 'px;'">
+                                <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label"
+                                    :name="item.name">
+                                    <!--Tab Content-->
+                                    <iframe :src="item.src" :height="screenHeight - 125" :width="contentWidth - 30 - 24"
+                                        style="border: none;"></iframe>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </el-col>
+                    </el-row>
+                </el-main>
+            </el-container>
     </div>
     <script>
         const { loadModule, vueVersion } = window['vue2-sfc-loader'];
@@ -30,12 +77,99 @@
                 return res.text();
             },
             addStyle() { /* unused here */ },
-        };
+        };     
+    </script>
 
-        var vm = null;
-        
-        loadModule('js/component/main.menu.vue', options)
-            .then(component => vm = new Vue(component).$mount('#main_app'));        
+    </template>
+
+    <script>
+        var vm = new Vue({
+            el: "#main_app",
+            data() {
+                return {
+                    table: {
+                        data: Array.from(100).fill({ a: 1 }, 0)
+                    },
+                    message: "Hello Element Plus",
+                    screenHeight: document.body.clientHeight - 61,
+                    contentHeight: document.body.clientHeight - 61 - 125,
+                    contentWidth: document.body.clientWidth - 200,
+                    menus: [{
+                        title: '工具中心',
+                        key: '1',
+                        child: [{ key: '1-1', title: '日志浏览' },
+                        { key: '1-2', title: 'WebSocket', src: 'ws/index.html' }
+                        ]
+                    },
+                    {
+                        title: '学习中心', key: '2',
+                        child: [
+                            { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
+                            { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' }
+                        ]
+                    }
+                    ],
+                    activeTab: null,
+                    dynamicTabs: []
+                };
+            },
+            mounted: function () {
+                const obj = this
+                for (let i = 0; i < 20; i++) {
+                    this.table.data.push({ name: i });
+                }
+                window.onresize = () => {
+                    return (() => {
+                        window.screenHeight = document.body.clientHeight - 60;
+                        obj.screenHeight = window.screenHeight;
+                        obj.contentHeight = document.body.clientHeight - 61 - 125;
+                        obj.contentWidth = document.body.clientWidth - 200;
+                    })()
+                };
+            },
+            watch: {
+                screenHeight(val) {
+                    // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+                    if (!this.timer) {
+                        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+                        this.screenHeight = val
+                        this.timer = true
+                        let that = this
+                        setTimeout(function () {
+                            // 打印screenWidth变化的值
+                            console.log(that.screenHeight)
+                            that.timer = false
+                        }, 400)
+                    }
+                }
+            },
+            methods: {
+                handleSelect: function (val, path) {
+                    var item = this.menus.filter(v => v.key == path[1][0])[0].child.filter(v => v.key == val)[0];
+                    var curTab = { ...item, name: val, label: item.title };
+                    this.activeTab = curTab;
+                    if (this.dynamicTabs.filter(item => item.name == curTab.name).length == 0) {
+                        this.dynamicTabs.push(curTab);
+                    }
+                },
+                handleTabsEdit: function (val, action) {
+                    if (action == "remove") {
+                        var olds = this.dynamicTabs;
+                        this.dynamicTabs = olds.filter(item => item.name != val);
+                        if (val == this.activeTab.name) {
+                            var old_idx = olds.indexOf(olds.filter(item => item.name == val)[0]);
+                            this.activeTab = this.dynamicTabs[Math.min(this.dynamicTabs.length - 1, old_idx)];
+                        }
+                    }
+                },
+                loadVue: async function (path) {
+                    return await loadModule(path, options);
+                },
+                getTabData: function () {
+                    return this.activeTab.data;
+                }
+            }
+        });
     </script>
 </body>
 
