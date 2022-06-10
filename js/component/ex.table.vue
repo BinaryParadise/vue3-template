@@ -1,7 +1,7 @@
 <template>
     <el-row>
         <el-col>
-            <el-table :data="list" size="mini" :max-height="contentHeight" border>
+            <el-table :data="list" size="mini" :max-height="contentHeight-40" border>
                 <el-table-column prop="index" label="序号"></el-table-column>
                 <el-table-column prop="value" label="内容"></el-table-column>
             </el-table>
@@ -26,12 +26,6 @@ export default {
         for (let i = 0; i < 200; i++) {
             this.list.push({ index: i, value: Math.random() });
         }
-        window.onresize = () => {
-            return (() => {
-                window.screenHeight = document.body.clientHeight - 59;
-                obj.screenHeight = window.screenHeight;
-            })()
-        };
     },
     methods: {
     }
