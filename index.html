@@ -26,18 +26,17 @@
                             <el-col style="margin: 12px 0px;">
                                 <el-container>
                                     <el-image src="images/user.jpg"
-                                        style="border-radius: 50px;border: 1px solid #FFFFFF;height: 50px;margin-top: 5px;">
+                                        style="border-radius: 50px;border: 1px solid #FFFFFF;height: 50px;">
                                     </el-image>
-                                    <div class="profile_info">
-                                        <span>欢迎使用</span>
-                                        <h3>管理员</h2>
-                                    </div>
+                                    <el-row class="profile_info">
+                                        <el-col style="font-size: 12px;margin-top: 4px;">欢迎使用</el-col>
+                                        <el-col style="margin-top: 8px;color: #b2e2ee">管理员</el-col>
+                                    </el-row>
                                 </el-container>
                             </el-col>
                         </el-row>
                     </el-header>
-                    <el-main
-                        :style="'height:'+(screenHeight-size.menuHeight)+';padding: 0px !important;border-right: 1px solid #eee'">
+                    <el-main :style="'height:'+(screenHeight-size.menuHeight)+';padding: 0px !important;border: none;'">
                         <el-scrollbar>
                             <el-menu :default-openeds="['1','2']" @select="handleSelect" background-color="#2A3F54"
                                 text-color="#fff" active-text-color="#ffd04b">
@@ -106,8 +105,8 @@
                     },
                     message: "Hello Element Plus",
                     size: {
-                        menuWidth: 230,
-                        menuHeight: 135,
+                        menuWidth: 266,
+                        menuHeight: 150,
                     },
                     screenHeight: 0,
                     contentHeight: 0,
@@ -129,7 +128,7 @@
                     {
                         title: '其它', key: '3',
                         child: [
-                            { key: '3-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
+                            { key: '3-1', title: '运动手套 | 迈阿密风云（崭新出厂）', src: 'vue.html', data: 'js/component/ex.table.vue' },
                             { key: '3-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
                             { key: '3-3', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
                             { key: '3-4', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },

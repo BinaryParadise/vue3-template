@@ -17,9 +17,13 @@ body {
   border-bottom: solid 1px #D7D7D7;
 }
 
+.el-menu {
+  border-right: solid 1px #2A3F54;
+}
+
 .top-title {
-  font-size: 21px;
-  margin: 8px 0;
+  font-size: 22px;
+  margin: 16px 0;
   font-weight: bold;
   color: #ECF0F1;
 }
