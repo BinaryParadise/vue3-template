@@ -1,8 +1,7 @@
 <template>
     <el-row>
         <el-col>
-            <el-table :data="list" size="mini" :max-height="contentHeight" border header-row-style="font-width:bold;"
-                header-cell-style="background-color:#e0e0e0;">
+            <el-table :data="list" size="mini" :max-height="contentHeight" border>
                 <el-table-column prop="index" label="序号"></el-table-column>
                 <el-table-column prop="value" label="内容"></el-table-column>
             </el-table>
@@ -19,11 +18,11 @@ export default {
     data() {
         return {
             list: [],
-            contentHeight: parent.vm.contentHeight - 40
+            contentHeight: parent.vm.getInnerHeight()
         };
     },
     mounted: function () {
-        const obj = this
+        const obj = this;
         for (let i = 0; i < 200; i++) {
             this.list.push({ index: i, value: Math.random() });
         }

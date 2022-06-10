@@ -15,14 +15,32 @@
 
 <body lang="zh-cn">
     <div id="main_app" lang="zh-cn">
-        <el-container class="main-layout">
-
-            <el-aside width="200px" class="left-menu">
-                <el-row>
-                    <el-col>
+        <el-container class="main-layout" :style="'height: '+screenHeight+';'">
+            <el-aside :width="size.menuWidth+'px'" class="left-menu">
+                <el-container>
+                    <el-header :height="size.menuHeight+'px'">
+                        <el-row>
+                            <el-col class="top-title">
+                                <span>这里修改系统标题</span>
+                            </el-col>
+                            <el-col style="margin: 12px 0px;">
+                                <el-container>
+                                    <el-image src="images/user.jpg"
+                                        style="border-radius: 50px;border: 1px solid #FFFFFF;height: 50px;margin-top: 5px;">
+                                    </el-image>
+                                    <div class="profile_info">
+                                        <span>欢迎使用</span>
+                                        <h3>管理员</h2>
+                                    </div>
+                                </el-container>
+                            </el-col>
+                        </el-row>
+                    </el-header>
+                    <el-main
+                        :style="'height:'+(screenHeight-size.menuHeight)+';padding: 0px !important;border-right: 1px solid #eee'">
                         <el-scrollbar>
-                            <el-menu :default-openeds="['1','2']" unique-opened @select="handleSelect"
-                                background-color="#2A3F54" text-color="#fff" active-text-color="#ffd04b">
+                            <el-menu :default-openeds="['1','2']" @select="handleSelect" background-color="#2A3F54"
+                                text-color="#fff" active-text-color="#ffd04b">
                                 <el-submenu v-for="menu in menus" :key="menu.key" :index="menu.key">
                                     <template slot="title">
                                         <i class="el-icon-menu"></i><span>{{ menu.title }}</span>
@@ -36,8 +54,10 @@
                                 </el-submenu>
                             </el-menu>
                         </el-scrollbar>
-                    </el-col>
-                </el-row>
+                        </el-col>
+                    </el-main>
+                </el-container>
+
             </el-aside>
             <el-container>
                 <el-header class="nav-head">
@@ -45,21 +65,15 @@
                         标题
                     </h1>
                 </el-header>
-                <el-main class="main-content">
-                    <el-row :style="'height:' + screenHeight + 'px;padding:12px 12px 0 12px;'">
-                        <el-col>
-                            <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab.name" class="maintab"
-                                type="border-card" closable @edit="handleTabsEdit"
-                                :style="'height:' + (screenHeight - 40) + 'px;'">
-                                <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label"
-                                    :name="item.name">
-                                    <!--Tab Content-->
-                                    <iframe :src="item.src" :height="screenHeight - 125" :width="contentWidth - 30 - 24"
-                                        style="border: none;"></iframe>
-                                </el-tab-pane>
-                            </el-tabs>
-                        </el-col>
-                    </el-row>
+                <el-main class="main-content" :style="'height:' + (contentHeight-60) + 'px;margin:12px;'">
+                    <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab.name" class="maintab" type="border-card"
+                        closable @edit="handleTabsEdit">
+                        <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
+                            <!--Tab Content-->
+                            <iframe :src="item.src" :height="contentHeight-60 - 24-30" :width="contentWidth - 30 - 24"
+                                style="border: none;"></iframe>
+                        </el-tab-pane>
+                    </el-tabs>
                 </el-main>
             </el-container>
     </div>
@@ -91,9 +105,13 @@
                         data: Array.from(100).fill({ a: 1 }, 0)
                     },
                     message: "Hello Element Plus",
-                    screenHeight: document.body.clientHeight - 61,
-                    contentHeight: document.body.clientHeight - 61 - 125,
-                    contentWidth: document.body.clientWidth - 200,
+                    size: {
+                        menuWidth: 230,
+                        menuHeight: 135,
+                    },
+                    screenHeight: 0,
+                    contentHeight: 0,
+                    contentWidth: 0,
                     menus: [{
                         title: '工具中心',
                         key: '1',
@@ -105,7 +123,30 @@
                         title: '学习中心', key: '2',
                         child: [
                             { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
-                            { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' }
+                            { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        ]
+                    },
+                    {
+                        title: '其它', key: '3',
+                        child: [
+                            { key: '3-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
+                            { key: '3-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-3', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-4', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-5', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-6', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-7', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-8', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-9', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-10', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-11', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-12', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-13', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-14', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-15', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-16', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-17', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '3-18', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
                         ]
                     }
                     ],
@@ -118,14 +159,8 @@
                 for (let i = 0; i < 20; i++) {
                     this.table.data.push({ name: i });
                 }
-                window.onresize = () => {
-                    return (() => {
-                        window.screenHeight = document.body.clientHeight - 60;
-                        obj.screenHeight = window.screenHeight;
-                        obj.contentHeight = document.body.clientHeight - 61 - 125;
-                        obj.contentWidth = document.body.clientWidth - 200;
-                    })()
-                };
+                window.onresize = this.sizeChanged();
+                this.sizeChanged();
             },
             watch: {
                 screenHeight(val) {
@@ -144,6 +179,11 @@
                 }
             },
             methods: {
+                sizeChanged: function () {
+                    this.screenHeight = document.body.clientHeight - 1;
+                    this.contentHeight = this.screenHeight - 60;
+                    this.contentWidth = document.body.clientWidth - this.size.menuWidth;
+                },
                 handleSelect: function (val, path) {
                     var item = this.menus.filter(v => v.key == path[1][0])[0].child.filter(v => v.key == val)[0];
                     var curTab = { ...item, name: val, label: item.title };
@@ -164,6 +204,9 @@
                 },
                 loadVue: async function (path) {
                     return await loadModule(path, options);
+                },
+                getInnerHeight: function () {
+                    return this.contentHeight - 60 - 30 - 24;
                 },
                 getTabData: function () {
                     return this.activeTab.data;
