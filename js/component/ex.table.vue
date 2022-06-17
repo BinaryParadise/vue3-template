@@ -1,7 +1,7 @@
 <template>
     <el-row>
         <el-col>
-            <el-table :data="list" size="mini" :max-height="contentHeight-40" border>
+            <el-table :data="list" size="mini" :max-height='contentHeight-40' border>
                 <el-table-column prop="index" label="序号"></el-table-column>
                 <el-table-column prop="value" label="内容"></el-table-column>
             </el-table>
@@ -18,7 +18,7 @@ export default {
     data() {
         return {
             list: [],
-            contentHeight: parent.vm.getInnerHeight()
+            contentHeight: vm.contentHeight
         };
     },
     mounted: function () {

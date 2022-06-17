@@ -1,3 +1,4 @@
+<!-- <!DOCTYPE html> -->
 <html>
 
 <head class="dark">
@@ -53,24 +54,23 @@
                                 </el-submenu>
                             </el-menu>
                         </el-scrollbar>
-                        </el-col>
                     </el-main>
                 </el-container>
 
             </el-aside>
             <el-container>
-                <el-header class="nav-head">
+                <el-header class="nav-head" :height='size.navH+"px"'>
                     <h1 class="nav-title">
                         标题
                     </h1>
                 </el-header>
-                <el-main class="main-content" :style="'height:' + (contentHeight-60) + 'px;margin:12px;'">
+                <el-main class="main-content" style="margin:12px;">
                     <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab.name" class="maintab" type="border-card"
-                        closable @edit="handleTabsEdit">
+                        :style="'height:' + (screenHeight-size.navH-24-2)+'px;'" closable @edit="handleTabsEdit">
                         <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
                             <!--Tab Content-->
-                            <iframe :src="item.src" :height="contentHeight-60 - 24-30" :width="contentWidth - 30 - 24"
-                                style="border: none;"></iframe>
+                            <iframe :src="item.src" :height="contentHeight"
+                                :width="contentWidth - 30 - 24" style="border: none;"></iframe>
                         </el-tab-pane>
                     </el-tabs>
                 </el-main>
@@ -93,9 +93,8 @@
         };     
     </script>
 
-    </template>
-
     <script>
+        var tabH = 0;
         var vm = new Vue({
             el: "#main_app",
             data() {
@@ -107,9 +106,9 @@
                     size: {
                         menuWidth: 266,
                         menuHeight: 150,
+                        navH: 55
                     },
                     screenHeight: 0,
-                    contentHeight: 0,
                     contentWidth: 0,
                     menus: [{
                         title: '工具中心',
@@ -123,6 +122,7 @@
                         child: [
                             { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
                             { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                            { key: '2-3', title: '继承', src: 'extend.html' },
                         ]
                     },
                     {
@@ -166,7 +166,7 @@
                     // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
                     if (!this.timer) {
                         // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
-                        this.screenHeight = val
+                        this.screenHeight = val;
                         this.timer = true
                         let that = this
                         setTimeout(function () {
@@ -177,11 +177,21 @@
                     }
                 }
             },
+            computed: {
+                contentHeight: function () {
+                    return this.screenHeight - this.size.navH - 24 - 2 - 39 - 30;
+                }
+            },
             methods: {
                 sizeChanged: function () {
-                    this.screenHeight = document.body.clientHeight - 1;
-                    this.contentHeight = this.screenHeight - 60;
-                    this.contentWidth = document.body.clientWidth - this.size.menuWidth;
+                    console.warn({
+                        innerSize: { width: window.innerWidth, height: window.innerHeight },
+                        outerSize: { width: window.outerWidth, height: window.outerHeight },
+                        client: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight }
+                    });
+                    this.screenHeight = document.documentElement.clientHeight - 1;
+                    this.contentWidth = document.documentElement.clientWidth - this.size.menuWidth;
+                    window.tabH = this.contentHeight;
                 },
                 handleSelect: function (val, path) {
                     var item = this.menus.filter(v => v.key == path[1][0])[0].child.filter(v => v.key == val)[0];
@@ -203,9 +213,6 @@
                 },
                 loadVue: async function (path) {
                     return await loadModule(path, options);
-                },
-                getInnerHeight: function () {
-                    return this.contentHeight - 60 - 30 - 24;
                 },
                 getTabData: function () {
                     return this.activeTab.data;

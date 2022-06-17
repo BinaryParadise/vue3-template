@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="js/vue/vue.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="js/vue/element-ui.css">
+    <script src="js/vue/element-ui.js"></script>
+    <link rel="stylesheet" href="css/dark.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-table>
+
+        </el-table>
+    </div>
+    <script>
+        const VueComponment = {
+            data() {
+                return { contentHeight: 0 };
+            },
+            mounted: function () {
+                this.contentHeight = parent.vm.contentHeight;
+            },
+            template: `
+                <div>
+                    <slot></slot>
+                </div>
+            `
+        };
+
+        const Vue2 = Vue.extend(VueComponment);
+
+        new Vue2({
+            el: "#app",
+            data: {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
