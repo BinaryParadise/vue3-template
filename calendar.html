@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="js/vue/vue.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="js/vue/element-ui.css">
+    <script src="js/vue/element-ui.js"></script>
+    <link rel="stylesheet" href="css/dark.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-calendar></el-calendar>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                date: '',
+                items: [],
+                contentWidth: parent.vm.contentWidth,
+                contentHeight: parent.vm.contentHeight
+            },
+            created: function () {
+                this.date = new Date();
+                var days = this.getMonthDays(this.date.getFullYear(), this.date.getMonth());
+                //document.documentElement.style.setProperty("--gird-item-width", parseInt(this.contentWidth / 7) + "px");
+                for (let i = 1; i <= days; i++) {
+                    this.items.push(i);
+                }
+            },
+            methods: {
+                getMonthDays: function (year, month) {
+                    let days = new Date(year, month + 1, 0).getDate()
+                    return days;
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

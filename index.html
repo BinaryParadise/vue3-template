@@ -69,8 +69,8 @@
                         :style="'height:' + (screenHeight-size.navH-24-2)+'px;'" closable @edit="handleTabsEdit">
                         <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
                             <!--Tab Content-->
-                            <iframe :src="item.src" :height="contentHeight"
-                                :width="contentWidth - 30 - 24" style="border: none;"></iframe>
+                            <iframe :src="item.src" :height="contentHeight" :width="contentWidth"
+                                style="border: none;"></iframe>
                         </el-tab-pane>
                     </el-tabs>
                 </el-main>
@@ -109,7 +109,6 @@
                         navH: 55
                     },
                     screenHeight: 0,
-                    contentWidth: 0,
                     menus: [{
                         title: '工具中心',
                         key: '1',
@@ -123,6 +122,8 @@
                             { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
                             { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
                             { key: '2-3', title: '继承', src: 'extend.html' },
+                            { key: '2-4', title: '网格', src: 'grid.html' },
+                            { key: '2-5', title: '日历', src: 'calendar.html' },
                         ]
                     },
                     {
@@ -161,6 +162,11 @@
                 window.onresize = this.sizeChanged();
                 this.sizeChanged();
             },
+            computed: {
+                contentWidth: function () {
+                    return document.body.clientWidth - this.size.menuWidth - 24 - 30;
+                }
+            },
             watch: {
                 screenHeight(val) {
                     // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
@@ -178,6 +184,9 @@
                 }
             },
             computed: {
+                contentWidth: function () {
+                    return document.documentElement.clientWidth - this.size.menuWidth - 24 - 30;
+                },
                 contentHeight: function () {
                     return this.screenHeight - this.size.navH - 24 - 2 - 39 - 30;
                 }
@@ -190,7 +199,6 @@
                         client: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight }
                     });
                     this.screenHeight = document.documentElement.clientHeight - 1;
-                    this.contentWidth = document.documentElement.clientWidth - this.size.menuWidth;
                     window.tabH = this.contentHeight;
                 },
                 handleSelect: function (val, path) {

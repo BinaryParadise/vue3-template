@@ -23,7 +23,7 @@ export default {
     },
     mounted: function () {
         const obj = this;
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 10; i++) {
             this.list.push({ index: i, value: Math.random() });
         }
     },
