@@ -28,6 +28,7 @@
                     </div>
                     <el-button slot="append" type="primary" @click="connect">{{running?'断开':'连接'}}</el-button>
                 </el-input>
+                <el-button type="primary" @click="sendMsg">发送</el-button>
             </el-col>
             <el-col :span='16'>
                 <el-input v-model="host" placeholder="请输入地址"></el-input>
@@ -94,6 +95,13 @@
                         obj.running = false;
                     };
                     obj.wsock = ws;
+                },
+                send: function (obj) {
+                    var encoder = new TextEncoder();
+                    this.wsock.send(encoder.encode(JSON.stringify(obj)))
+                },
+                sendMsg: function () {
+                    this.send({ a: 10 });
                 }
             }
         });
