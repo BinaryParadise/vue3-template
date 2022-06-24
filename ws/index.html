@@ -14,26 +14,23 @@
 
 <body lang="zh-cn">
     <div id="app" lang="zh-cn">
-        <el-row>
-            <el-col :span='6'>
-
-                <el-select v-model="bintype">
-                    <el-option value="blob" label="blob"></el-option>
-                    <el-option value="arraybuffer" label="arraybuffer"></el-option>
-                </el-select>
-                <el-input v-model="host" placeholder="请输入地址">
-                    <div slot="prepend">
-                        <div><span>ws://</span>
-                        </div>
+        <el-container>
+            <el-select size="mini" v-model="bintype">
+                <el-option value="blob" label="blob"></el-option>
+                <el-option value="arraybuffer" label="arraybuffer"></el-option>
+            </el-select>
+            <el-input size="mini" v-model="host" placeholder="请输入地址" style="margin-left: 8px;width: 500px;">
+                <div slot="prepend">
+                    <div><span>ws://</span>
                     </div>
-                    <el-button slot="append" type="primary" @click="connect">{{running?'断开':'连接'}}</el-button>
-                </el-input>
-                <el-button type="primary" @click="sendMsg">发送</el-button>
-            </el-col>
-            <el-col :span='16'>
-                <el-input v-model="host" placeholder="请输入地址"></el-input>
-            </el-col>
-        </el-row>
+                </div>
+                <el-button slot="append" type="primary" @click="connect">{{running?'断开':'连接'}}</el-button>
+            </el-input>
+        </el-container>
+        <el-container style="margin-top:16px;">
+            <el-input type="textarea" v-model="msg" style="width: 600px;"></el-input>
+            <el-button size="mini" type="primary" style="margin-left: 12px;" @click="sendMsg">发送</el-button>
+        </el-container>
     </div>
     <script>
 
@@ -51,8 +48,9 @@
                 return {
                     host: '',
                     clientid: "",
-                    bintype: "blob",
+                    bintype: "arraybuffer",
                     running: false,
+                    msg: '',
                     wsock: {},
                     getWSUrl: function () {
                         return 'ws://' + this.host + "?clientid=" + this.clientid;
@@ -74,7 +72,7 @@
                     }
                     localStorage.setItem("wsut_host", this.host);
                     var obj = this;
-                    var ws = WebSocket === undefined ? new window.MozWebSocket(obj.getWSUrl()) : new WebSocket(obj.getWSUrl());
+                    var ws = new WebSocket(obj.getWSUrl());
                     if (obj.bintype == "arraybuffer") {
                         ws.binaryType = obj.bintype;
                     }
@@ -101,7 +99,7 @@
                     this.wsock.send(encoder.encode(JSON.stringify(obj)))
                 },
                 sendMsg: function () {
-                    this.send({ a: 10 });
+                    this.send(JSON.parse(this.msg));
                 }
             }
         });
