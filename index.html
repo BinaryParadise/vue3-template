@@ -124,6 +124,7 @@
                             { key: '2-3', title: '继承', src: 'extend.html' },
                             { key: '2-4', title: '网格', src: 'grid.html' },
                             { key: '2-5', title: '日历', src: 'calendar.html' },
+                            { key: '2-6', title: 'mixin', src: 'mixin.html' },
                         ]
                     },
                     {
@@ -193,7 +194,7 @@
             },
             methods: {
                 sizeChanged: function () {
-                    console.warn({
+                    console.info({
                         innerSize: { width: window.innerWidth, height: window.innerHeight },
                         outerSize: { width: window.outerWidth, height: window.outerHeight },
                         client: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight }
