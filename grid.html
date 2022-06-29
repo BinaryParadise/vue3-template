@@ -10,7 +10,11 @@
     <style>
         :root {
             --gird-item-width: 100px;
-            --grrd-item-height: 100px;
+            --grid-item-height: 100px;
+        }
+
+        .grid-c {
+            max-height: var(--content-height);
         }
 
         .grid {
@@ -26,7 +30,7 @@
 
 <body>
     <div id="app">
-        <el-container style="flex-wrap: wrap;">
+        <el-container class="grid-c" style="flex-wrap: wrap;">
             <div v-for="item in items" class="grid" :key="item">
                 {{item}}
             </div>

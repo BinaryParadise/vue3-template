@@ -65,7 +65,7 @@
                     </h1>
                 </el-header>
                 <el-main class="main-content" style="margin:12px;">
-                    <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab.name" class="maintab" type="border-card"
+                    <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab" type="border-card"
                         :style="'height:' + (screenHeight-size.navH-24-2)+'px;'" closable @edit="handleTabsEdit">
                         <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
                             <!--Tab Content-->
@@ -97,62 +97,60 @@
         var tabH = 0;
         var vm = new Vue({
             el: "#main_app",
-            data() {
-                return {
-                    table: {
-                        data: Array.from(100).fill({ a: 1 }, 0)
-                    },
-                    message: "Hello Element Plus",
-                    size: {
-                        menuWidth: 266,
-                        menuHeight: 150,
-                        navH: 55
-                    },
-                    screenHeight: 0,
-                    menus: [{
-                        title: '工具中心',
-                        key: '1',
-                        child: [{ key: '1-1', title: '日志浏览' },
-                        { key: '1-2', title: 'WebSocket', src: 'ws/index.html' }
-                        ]
-                    },
-                    {
-                        title: '学习中心', key: '2',
-                        child: [
-                            { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
-                            { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '2-3', title: '继承', src: 'extend.html' },
-                            { key: '2-4', title: '网格', src: 'grid.html' },
-                            { key: '2-5', title: '日历', src: 'calendar.html' },
-                        ]
-                    },
-                    {
-                        title: '其它', key: '3',
-                        child: [
-                            { key: '3-1', title: '运动手套 | 迈阿密风云（崭新出厂）', src: 'vue.html', data: 'js/component/ex.table.vue' },
-                            { key: '3-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-3', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-4', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-5', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-6', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-7', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-8', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-9', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-10', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-11', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-12', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-13', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-14', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-15', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-16', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-17', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                            { key: '3-18', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
-                        ]
-                    }
-                    ],
-                    activeTab: null,
-                    dynamicTabs: []
-                };
+            data: {
+                table: {
+                    data: Array.from(100).fill({ a: 1 }, 0)
+                },
+                message: "Hello Element Plus",
+                size: {
+                    menuWidth: 266,
+                    menuHeight: 150,
+                    navH: 55
+                },
+                screenHeight: 0,
+                menus: [{
+                    title: '工具中心',
+                    key: '1',
+                    child: [{ key: '1-1', title: '日志浏览' },
+                    { key: '1-2', title: 'WebSocket', src: 'ws/index.html' }
+                    ]
+                },
+                {
+                    title: '学习中心', key: '2',
+                    child: [
+                        { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
+                        { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '2-3', title: '继承', src: 'extend.html' },
+                        { key: '2-4', title: '网格', src: 'grid.html' },
+                        { key: '2-5', title: '日历', src: 'calendar.html' },
+                    ]
+                },
+                {
+                    title: '其它', key: '3',
+                    child: [
+                        { key: '3-1', title: '运动手套 | 迈阿密风云（崭新出厂）', src: 'vue.html', data: 'js/component/ex.table.vue' },
+                        { key: '3-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-3', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-4', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-5', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-6', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-7', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-8', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-9', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-10', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-11', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-12', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-13', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-14', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-15', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-16', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-17', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                        { key: '3-18', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+                    ]
+                }
+                ],
+                activeTab: null,
+                dynamicTabs: []
             },
             mounted: function () {
                 const obj = this
@@ -204,18 +202,18 @@
                 handleSelect: function (val, path) {
                     var item = this.menus.filter(v => v.key == path[1][0])[0].child.filter(v => v.key == val)[0];
                     var curTab = { ...item, name: val, label: item.title };
-                    this.activeTab = curTab;
                     if (this.dynamicTabs.filter(item => item.name == curTab.name).length == 0) {
                         this.dynamicTabs.push(curTab);
                     }
+                    this.activeTab = curTab.name;
                 },
                 handleTabsEdit: function (val, action) {
                     if (action == "remove") {
                         var olds = this.dynamicTabs;
                         this.dynamicTabs = olds.filter(item => item.name != val);
-                        if (val == this.activeTab.name) {
+                        if (val == this.activeTab) {
                             var old_idx = olds.indexOf(olds.filter(item => item.name == val)[0]);
-                            this.activeTab = this.dynamicTabs[Math.min(this.dynamicTabs.length - 1, old_idx)];
+                            this.activeTab = this.dynamicTabs[Math.min(this.dynamicTabs.length - 1, old_idx)].name;
                         }
                     }
                 },
@@ -223,7 +221,15 @@
                     return await loadModule(path, options);
                 },
                 getTabData: function () {
-                    return this.activeTab.data;
+                    return this.activeTab;
+                }
+            }
+        });
+
+        Vue.mixin({
+            computed: {
+                contentHeight: function () {
+                    return vm.contentHeight;
                 }
             }
         });
