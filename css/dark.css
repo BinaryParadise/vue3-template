@@ -5,6 +5,14 @@ body {
 
 }
 
+:root {
+  --content-height: 300px;
+}
+
+#app {
+  height: 100vh;
+}
+
 .main-layout .left-menu {
   height: 100vh;
   background-color: #2A3F54;
