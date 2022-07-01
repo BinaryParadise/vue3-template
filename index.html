@@ -222,7 +222,7 @@
                     return await loadModule(path, options);
                 },
                 getTabData: function () {
-                    return this.activeTab;
+                    return this.dynamicTabs.filter(item => item.key == this.activeTab)[0].data;
                 }
             }
         });
