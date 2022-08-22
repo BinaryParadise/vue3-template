@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <script src="js/vue/vue.js"></script>
     <!-- import CSS -->
-    <link rel="stylesheet" href="js/vue/element-ui.css">
-    <link rel="stylesheet" href="css/dark.css">
+    <link rel="stylesheet" href="js/vue/element-ui.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dark.css" />
     <!-- import JavaScript -->
     <script src="js/vue/element-ui.js"></script>
     <script src="js/vue/vue2-sfc-loader.js"></script>
@@ -58,7 +59,7 @@
                 </el-container>
 
             </el-aside>
-            <el-container>
+            <el-container class="main-container">
                 <el-header class="nav-head" :height='size.navH+"px"'>
                     <h1 class="nav-title">
                         标题
@@ -197,7 +198,7 @@
                         outerSize: { width: window.outerWidth, height: window.outerHeight },
                         client: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight }
                     });
-                    this.screenHeight = document.documentElement.clientHeight - 1;
+                    this.screenHeight = document.documentElement.clientHeight;
                     window.tabH = this.contentHeight;
                 },
                 handleSelect: function (val, path) {
