@@ -1,7 +1,7 @@
 <template>
     <el-row>
         <el-col>
-            <el-table :data="list" size="mini" style="height:calc(100vh - 40px);" border>
+            <el-table :data="list" size="mini" height="calc(100vh - 40px)" border style="width:100%;">
                 <el-table-column prop="index" label="序号"></el-table-column>
                 <el-table-column prop="value" label="内容"></el-table-column>
             </el-table>
@@ -17,13 +17,12 @@
 export default {
     data() {
         return {
-            list: [],
-            contentHeight: vm.contentHeight
+            list: []
         };
     },
     mounted: function () {
         const obj = this;
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 100; i++) {
             this.list.push({ index: i, value: Math.random() });
         }
     },
