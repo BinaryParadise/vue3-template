@@ -20,13 +20,15 @@ export default {
             list: []
         };
     },
-    mounted: function () {
-        const obj = this;
-        for (let i = 0; i < 100; i++) {
-            this.list.push({ index: i, value: Math.random() });
-        }
-    },
     methods: {
+        loadData() {
+            var that = this;
+            setTimeout(() => {
+                for (let i = 0; i < 100; i++) {
+                    that.list.push({ index: i, value: Math.random() });
+                }
+            }, 2000);
+        }
     }
 };
 </script>

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" v-cloak v-loading="loading">
         <el-table :data="list" size="mini" border style="min-height: calc(varl(--content-height));">
             <el-table-column prop="index" label="索引"></el-table-column>
         </el-table>
@@ -21,11 +21,17 @@
         new Vue({
             el: "#app",
             data: {
-                list: []
+                list: [],
+                loading: false
             },
-            created: function () {
-                for (let i = 0; i < 10; i++) {
-                    this.list.push({ index: i });
+            methods: {
+                loadData() {
+                    var that = this;
+                    that.loading = true;
+                    setTimeout(() => {
+                        that.list = new Array(10);
+                        that.loading = false;
+                    }, 2000)
                 }
             }
         });
