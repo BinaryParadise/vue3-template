@@ -4,8 +4,8 @@ Vue.mixin({
         };
     },
     mounted: function () {
-        if (this.loadData != undefined) {
-            this.loadData();
-        }
+        // if (this.loadData != undefined) {
+        //     this.loadData();
+        // }
     }
 });

@@ -15,6 +15,7 @@ export default {
         };
     },
     mounted: function () {
+        debugger
         const obj = this
         for (let i = 0; i < 200; i++) {
             this.list.push({ index: i, value: Math.random() });

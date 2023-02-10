@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="js/vue/vue.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="js/vue/element-ui.css">
+    <script src="js/vue/element-ui.js"></script>
+    <script src="js/plugin.js"></script>
+    <link rel="stylesheet" href="css/dark.css">
+</head>
+
+<body>
+    <div id="app" v-cloak v-loading="loading">
+        <vue-datepicker ref="date" @change="dateChanged"></vue-datepicker>
+    </div>
+    <script>
+
+        const DatePicker = {
+            name: 'vue-datepicker',
+            props: [],
+            data: function () {
+                return {
+                    pickerOptions: []
+                };
+            },
+
+            beforeCreate() {
+                console.debug('component-beforeCreate');
+            },
+            created() {
+                console.debug('component-created');
+            },
+            beforeMount() {
+                console.debug('component-beforeMount');
+            },
+            mounted() {
+                console.debug('component-mounted');
+
+                var JIESHURQDATA = new Date();
+                JIESHURQDATA.setDate(0);
+                var KAISHIRQDATA = new Date(JIESHURQDATA);
+                KAISHIRQDATA.setDate(1);
+                this.pickerOptions = [KAISHIRQDATA, JIESHURQDATA];
+            },
+            methods: {
+                changed(val) {
+                    this.$emit('change', val);
+                }
+            },
+            template: `
+                <el-date-picker size="mini" v-model="pickerOptions" type="daterange" range-separator="-"
+                start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" @change="changed"
+                align="right" style="max-width:230px;">
+                </el-date-picker>
+            `,
+        }
+
+        new Vue({
+            el: "#app",
+            data: {
+                loading: false,
+            },
+            beforeCreate() {
+                console.debug('beforeCreate');
+            },
+            created() {
+                console.debug('created');
+            },
+            beforeMount() {
+                console.debug('beforeMount');
+            },
+            mounted() {
+                console.debug('mounted');
+                this.loadData();
+            },
+            components: {
+                'vue-datepicker': DatePicker
+            },
+            methods: {
+                loadData() {
+                    console.log('loadData');
+                    console.debug(this.$refs.date.pickerOptions);
+                },
+                dateChanged(val) {
+                    console.log('dateChanged: ' + val);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

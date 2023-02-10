@@ -1,16 +1,12 @@
 <template>
-    <el-row>
-        <el-col>
-            <el-table :data="list" size="mini" height="calc(100vh - 40px)" border style="width:100%;">
-                <el-table-column prop="index" label="序号"></el-table-column>
-                <el-table-column prop="value" label="内容"></el-table-column>
-            </el-table>
-        </el-col>
-        <el-col style="margin-top:8px;">
-            <el-pagination background layout="prev, pager, next" size="mini" :total="list.length">
-            </el-pagination>
-        </el-col>
-    </el-row>
+    <el-container>
+        <div style="margin-right:10px;width:calc(50vw - 10px);">
+            
+        </div>
+        <div style="margin-left:10px;width:calc(50vw - 10px);">
+            
+        </div>
+    </el-container>
 </template>
 
 <script>
@@ -19,6 +15,9 @@ export default {
         return {
             list: []
         };
+    },
+    mounted() {
+        this.loadData();
     },
     methods: {
         loadData() {
