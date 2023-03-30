@@ -11,25 +11,25 @@
 </head>
 
 <body>
-    <div id="app" v-cloak v-loading="loading">
-        <el-table :data="list" size="mini" border style="min-height: calc(varl(--content-height));">
+    <div id="app" v-cloak v-loading="mixin.loading">
+        <el-table :data="list" size="mini" border style="min-height: calc(varl(--content-height));" v-loading="loading">
             <el-table-column prop="index" label="索引"></el-table-column>
         </el-table>
     </div>
     <script>
 
-        new Vue({
+        new Vue2({
             el: "#app",
             data: {
                 list: [],
                 loading: false
             },
             methods: {
-                loadData() {
+                loaddata() {
                     var that = this;
                     that.loading = true;
                     setTimeout(() => {
-                        that.list = new Array(10);
+                        that.list = [...new Array(10).keys()].map(v => { return { index: v } });
                         that.loading = false;
                     }, 2000)
                 }
