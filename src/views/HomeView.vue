@@ -10,8 +10,7 @@
               </el-col>
               <el-col style="margin: 12px 0px;">
                 <el-container>
-                  <el-image src="img/user.jpg"
-                    style="border-radius: 50px;border: 1px solid #FFFFFF;height: 50px;">
+                  <el-image src="img/user.jpg" style="border-radius: 50px;border: 1px solid #FFFFFF;height: 50px;">
                   </el-image>
                   <el-row class="profile_info">
                     <el-col style="font-size: 12px;margin-top: 4px;">欢迎使用</el-col>
@@ -48,15 +47,8 @@
             标题
           </h1>
         </el-header>
-        <el-main class="main-content" style="margin:12px;">
-          <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab" type="border-card"
-            style="height: calc(100vh - var(--nav-top) - 26px)" closable @edit="handleTabsEdit">
-            <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
-              <!--Tab Content-->
-              <iframe :src="item.src"
-                style="border: none;width: 100%;height: calc(100vh - var(--nav-top) - var(--tab-inset) - 39px);"></iframe>
-            </el-tab-pane>
-          </el-tabs>
+        <el-main class="main-content" style="padding:12px;" :v-loading="true">
+          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -64,8 +56,11 @@
 </template>
 
 <script>
+import BaseMixin from '../components/BaseMixin.vue'
+
 export default {
   name: "HomeView",
+  mixins: [BaseMixin],
   data: function () {
     return {
       table: {
@@ -83,8 +78,7 @@ export default {
         title: '学习中心', key: '2',
         child: [
           { key: '2-0', title: '生命周期', src: 'lifecycle.html' },
-          { key: '2-1', title: '表格', src: 'vue.html', data: 'js/component/ex.table.vue' },
-          { key: '2-2', title: '列表', src: 'vue.html', data: 'js/component/ex.list.vue' },
+          { key: '2-1', title: '表格', src: '/table' },
           { key: '2-3', title: '继承', src: 'extend.html' },
           { key: '2-4', title: '网格', src: 'grid.html' },
           { key: '2-5', title: '日历', src: 'calendar.html' },
@@ -153,6 +147,7 @@ export default {
         this.dynamicTabs.push(curTab);
       }
       this.activeTab = curTab.name;
+      this.$router.push(curTab.src);
     },
     handleTabsEdit: function (val, action) {
       if (action == "remove") {

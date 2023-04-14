@@ -8,7 +8,10 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    children: [
+      { path: 'table', component: () => import('../views/TableView.vue') },      
+    ]
   },
   {
     path: '/about',
@@ -21,6 +24,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 

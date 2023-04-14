@@ -1,3 +1,4 @@
+<script>
 const BaseMixin = {
     data() {
         return {
@@ -8,33 +9,29 @@ const BaseMixin = {
             }
         };
     },
-    mounted() {
+    beforeMount() {
         this.mixin.loading = true;
+    },
+
+    mounted() {
         this.preparation();
     },
     watch: {
         "mixin.prepared": function (newValue, oldValue) {
             if (newValue && newValue != oldValue) {
-                if (this.loaddata) {
-                    this.loaddata(1);
+                if (this.loadData) {
+                    this.mixin.loading = this.loadData(1);
                 }
-                this.mixin.loading = false;
             }
         },
     },
     methods: {
         preparation() {
             this.mixin.prepared = true;
+            this.mixin.loading = false;
         }
     },
 };
 
-const VueComponment = {
-    name: "BaseVue",
-    mixins: [BaseMixin],
-    data() {
-        return { based: true };
-    }
-};
-
-const Vue2 = Vue.extend(VueComponment);
+export default BaseMixin;
+</script>
