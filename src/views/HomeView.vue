@@ -47,8 +47,16 @@
             标题
           </h1>
         </el-header>
-        <el-main class="main-content" style="padding:12px;" :v-loading="true">
-          <router-view></router-view>
+        <el-main class="main-content" style="padding:12px;height: 100%;" :v-loading="true">
+          <el-tabs v-if="dynamicTabs.length > 0" v-model="activeTab" class="maintab" type="border-card"
+            style="height: calc(100vh - var(--nav-top) - 26px)" closable @edit="handleTabsEdit">
+            <el-tab-pane v-for="item in dynamicTabs" :key="item.name" :label="item.label" :name="item.name">
+              <!--Tab Content-->
+              <keep-alive>
+                <component :is="item.component" style="height:100%"></component>
+              </keep-alive>
+            </el-tab-pane>
+          </el-tabs>
         </el-main>
       </el-container>
     </el-container>
@@ -70,20 +78,20 @@ export default {
       menus: [{
         title: '工具中心',
         key: '1',
-        child: [{ key: '1-1', title: '日志浏览' },
-        { key: '1-2', title: 'WebSocket', src: 'ws/index.html' }
+        child: [
+          { key: '1-1', title: '日志浏览' },
         ]
       },
       {
-        title: '学习中心', key: '2',
+        title: '图书馆', key: '2',
         child: [
-          { key: '2-0', title: '生命周期', src: 'lifecycle.html' },
-          { key: '2-1', title: '表格', src: '/table' },
-          { key: '2-3', title: '继承', src: 'extend.html' },
-          { key: '2-4', title: '网格', src: 'grid.html' },
-          { key: '2-5', title: '日历', src: 'calendar.html' },
-          { key: '2-6', title: 'mixin', src: 'mixin.html' },
-          { key: '2-7', title: '插件', src: 'views/plugin.html' }
+          { key: '2-1', title: '生命周期', component: () => import('../views/LifecycleView.vue') },
+          { key: '2-2', title: '表格', src: '/table', component: () => import('../views/TableView.vue') },
+          { key: '2-3', title: '继承', component: () => import('../views/ExtendView.vue') },
+          { key: '2-4', title: '网格', src: '/grid', component: () => import('../views/GridView.vue') },
+          { key: '2-5', title: '日历', component: () => import('../views/CalendarView.vue') },
+          { key: '2-7', title: '插件', component: () => import('@/views/PluginView.vue') },
+          { key: '2-8', title: 'WebSocket', component: () => import('../views/WebSocketView.vue') }
         ]
       },
       {
@@ -147,7 +155,6 @@ export default {
         this.dynamicTabs.push(curTab);
       }
       this.activeTab = curTab.name;
-      this.$router.push(curTab.src);
     },
     handleTabsEdit: function (val, action) {
       if (action == "remove") {
