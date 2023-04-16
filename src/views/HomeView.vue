@@ -91,7 +91,8 @@ export default {
           { key: '2-4', title: '网格', src: '/grid', component: () => import('../views/GridView.vue') },
           { key: '2-5', title: '日历', component: () => import('../views/CalendarView.vue') },
           { key: '2-7', title: '插件', component: () => import('@/views/PluginView.vue') },
-          { key: '2-8', title: 'WebSocket', component: () => import('../views/WebSocketView.vue') }
+          { key: '2-8', title: 'WebSocket', component: () => import('../views/WebSocketView.vue') },
+          { key: '2-9', title: '流浪地球', component: () => import('../views/WanderingView.vue') }
         ]
       },
       {
