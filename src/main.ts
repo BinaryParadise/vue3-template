@@ -13,7 +13,7 @@ const app = createApp(App)
 
 app.config.globalProperties.$moment = moment
 
-app.use(ElementPlus, { size: 'mini', zIndex: 3000 })
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
