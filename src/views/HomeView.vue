@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import HelloWorld from '../components/HelloWorld.vue'
+
+defineProps<{
+  msg: string
+}>()
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <HelloWorld :msg="msg" />
   </main>
 </template>

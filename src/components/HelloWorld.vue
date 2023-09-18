@@ -13,6 +13,7 @@ defineProps<{
       <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
     </h3>
   </div>
+  <div style="height: calc(100vh + 100px);"></div>
 </template>
 
 <style scoped>
@@ -33,6 +34,7 @@ h3 {
 }
 
 @media (min-width: 1024px) {
+
   .greetings h1,
   .greetings h3 {
     text-align: left;
