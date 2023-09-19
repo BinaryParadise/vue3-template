@@ -1,7 +1,14 @@
+<script lang="ts" setup>
+import BaseComponent from '@/components/BaseComponent.vue';
+
+</script>
+
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <BaseComponent>
+    <div class="about">
+      <h1>This is an about page</h1>
+    </div>
+  </BaseComponent>
 </template>
 
 <style>

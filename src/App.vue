@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { computed, ref } from "vue";
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Moon,
-  Sunny
-} from '@element-plus/icons-vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { computed, ref, watch } from "vue";
 import { useDark, useToggle } from '@vueuse/core'
+import { HomeFilled, Sunny, Moon, Operation, UserFilled } from '@element-plus/icons-vue'
+import { store } from './components/store'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const isd = ref(false)
-const navs = ref([{ title: '菜单选项1', key: 'nav1', path: '/nav1' }, { title: '菜单选项2', key: 'nav2', path: '/nav2' }])
+const navs = [
+  { title: '菜单选项1', icon: HomeFilled, key: 'nav1', child: [{ title: '功能选项1', path: '/', key: 'fun1' }, { title: '功能选项2', key: 'fun2', path: '/welcome' }] },
+  { title: '菜单选项2', icon: Operation, key: 'nav2', child: [{ title: '功能选项2', path: '/about', key: 'fun3' }] }]
 const login = ref(true)
 
 const isLogin = computed({
@@ -45,10 +41,10 @@ function routeStyle() {
           <RouterLink to="/" class="home-a">控制台</RouterLink>
         </div>
         <div style="display: flex;align-items:center;">
-          <el-switch v-model="isDark" @change="toggleDark" :active-action-icon="Moon"
-            :inactive-action-icon="Sunny"></el-switch>
-          <el-dropdown size="mini" trigger="click" @command="handleCommand">
-            <el-icon>
+          <el-switch v-model="isDark" @change="toggleDark" style="color: var(--color-background-mute);"
+            :active-action-icon="Moon" :inactive-action-icon="Sunny"></el-switch>
+          <el-dropdown trigger="hover" @command="handleCommand">
+            <el-icon class="avatar">
               <UserFilled />
             </el-icon>
             <el-dropdown-menu slot="dropdown">
@@ -65,22 +61,24 @@ function routeStyle() {
         <el-aside>
           <!-- 侧边栏-菜单 -->
           <el-scrollbar>
-            <el-menu default-active="nav1" class="menu-left">
-              <el-sub-menu index="nav1">
+            <el-menu default-active="fun1" class="menu-left">
+              <el-sub-menu v-for="item in navs" :index="item.key">
                 <template #title>
                   <el-icon>
-                    <location />
+                    <component :is="item.icon"></component>
                   </el-icon>
-                  <span>{{ "菜单1" }}</span>
+                  <span>{{ item.title }}</span>
                 </template>
-                <el-menu-item>功能选项1</el-menu-item>
+                <el-menu-item v-for="subitem in item.child" :index="subitem.key">
+                  <RouterLink :to="subitem.path">{{ subitem.title }}</RouterLink>
+                </el-menu-item>
               </el-sub-menu>
             </el-menu>
           </el-scrollbar>
         </el-aside>
 
         <!-- 主内容 -->
-        <el-main>
+        <el-main v-loading="store.loading">
           <RouterView />
         </el-main>
       </el-container>
@@ -109,7 +107,7 @@ function routeStyle() {
 
 .nav-header {
   border-bottom: solid 1px var(--color-border);
-  background-color: var(--color-background-mute);
+  background-color: var(--color-background-main);
 }
 
 .nav-footer {
@@ -159,6 +157,7 @@ function routeStyle() {
   width: 32px;
   height: 32px;
   border-radius: 32px;
+  color: var(--color-invert);
 }
 
 .menu-left {
