@@ -79,7 +79,7 @@ function routeStyle() {
 
         <!-- 主内容 -->
         <el-main v-loading="store.loading">
-          <RouterView />
+          <RouterView :key="$route.fullPath" />
         </el-main>
       </el-container>
     </el-container>
