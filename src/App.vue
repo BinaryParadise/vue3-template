@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { computed, ref, watch } from "vue";
+import { computed, inject, ref, watch } from "vue";
 import { useDark, useToggle } from '@vueuse/core'
-import { HomeFilled, Sunny, Moon, Operation, UserFilled } from '@element-plus/icons-vue'
+import { Sunny, Moon, UserFilled } from '@element-plus/icons-vue'
 import { store } from './components/store'
+import type { IRequest, Privileges } from './interfaces/net';
+import { useIcon } from './utils/useIcon'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
-const isd = ref(false)
-const navs = [
-  { title: '菜单选项1', icon: HomeFilled, key: 'nav1', child: [{ title: '功能选项1', path: '/', key: 'fun1' }, { title: '功能选项2', key: 'fun2', path: '/welcome' }] },
-  { title: '菜单选项2', icon: Operation, key: 'nav2', child: [{ title: '功能选项2', path: '/about', key: 'fun3' }] }]
+const navs = ref<Array<Privileges>>(new Array())
 const login = ref(true)
 
 const isLogin = computed({
@@ -22,13 +21,21 @@ const isLogin = computed({
   }
 })
 
-function handleCommand() {
-
+const router = useRouter()
+function handleCommand(index: string, indexPath: Array<string>, item: any): void {
+  // let group = navs.value.filter(v=>v.key=indexPath[0])[0]
+  // let path = group.child.filter(y=>y.key==index)[0].path
+  // router.push(path)
 }
 
 function routeStyle() {
 
 }
+
+const api = inject<IRequest>('api')
+api?.get<Array<Privileges>>('/user/menu').then(result => {
+  navs.value = result.data
+})
 </script>
 
 <template>
@@ -61,16 +68,16 @@ function routeStyle() {
         <el-aside>
           <!-- 侧边栏-菜单 -->
           <el-scrollbar>
-            <el-menu default-active="fun1" class="menu-left">
+            <el-menu default-active="/" class="menu-left" @select="handleCommand" router>
               <el-sub-menu v-for="item in navs" :index="item.key">
                 <template #title>
                   <el-icon>
-                    <component :is="item.icon"></component>
+                    <component :is="useIcon(item.icon)"></component>
                   </el-icon>
                   <span>{{ item.title }}</span>
                 </template>
-                <el-menu-item v-for="subitem in item.child" :index="subitem.key">
-                  <RouterLink :to="subitem.path">{{ subitem.title }}</RouterLink>
+                <el-menu-item v-for="subitem in item.child" :index="subitem.path">
+                  {{ subitem.title }}
                 </el-menu-item>
               </el-sub-menu>
             </el-menu>
@@ -84,7 +91,7 @@ function routeStyle() {
       </el-container>
     </el-container>
     <el-footer height="50px" class="nav-footer">
-      <span>Copyright © 2009-{{ $moment().format("YYYY") }} 公司名称 版权所有</span>
+      <span>Copyright © 2009-{{ $moment().format("YYYY") }} 寰宇通信 版权所有</span>
     </el-footer>
   </el-container>
 </template>
@@ -164,3 +171,4 @@ function routeStyle() {
   height: calc(100vh - 100px);
 }
 </style>
+@/utils/request

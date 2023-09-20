@@ -10,14 +10,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
-      props: { msg: 'You did it!' }
+      component: PageView,
+      props: { child: HomeView, msg: 'You did it!' }
     },
     {
       path: '/welcome',
       name: 'welcome',
       component: PageView,
-      props:{
+      props: {
         child: TheWelcome
       }
     },
@@ -29,8 +29,8 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: PageView,
       props: {
-        child: AboutView 
-      } 
+        child: AboutView
+      }
     }
   ]
 })
