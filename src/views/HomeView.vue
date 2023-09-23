@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, useAttrs } from 'vue';
+import { onMounted, useAttrs } from 'vue'
 import HelloWorld from '../components/HelloWorld.vue'
 import { store } from '../components/store'
 
@@ -9,6 +9,8 @@ defineProps<{
 
 store.loading = true
 
+const user: User = { username: '', token: 'AJDOEIPJGENLJZLC' }
+
 onMounted(() => {
   store.loading = false
 })
@@ -16,6 +18,6 @@ onMounted(() => {
 
 <template :v-loading="store.loading">
   <main>
-    <HelloWorld :msg="msg" />
+    <HelloWorld :msg="user.token" />
   </main>
 </template>
