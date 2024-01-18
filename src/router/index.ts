@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import TheWelcome from '@/components/TheWelcome.vue'
 import PageView from '@/views/PageView.vue'
 import AboutView from '@/views/AboutView.vue'
+import VModelView from '@/views/demo/VModelView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +13,11 @@ const router = createRouter({
       name: 'home',
       component: PageView,
       props: { child: HomeView, msg: 'You did it!' }
+    },
+    {
+      path: '/demo/vmodel',
+      component: PageView,
+      props: { child: VModelView }
     },
     {
       path: '/welcome',

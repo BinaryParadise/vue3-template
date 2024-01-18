@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { computed, inject, ref, watch } from "vue";
+import { computed, inject, ref, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 import { Sunny, Moon, UserFilled } from '@element-plus/icons-vue'
 import { store } from './components/store'
-import type { IRequest, Privileges } from './interfaces/net';
+import type { IRequest, Privileges } from './interfaces/net'
 import { useIcon } from './utils/useIcon'
 
 const isDark = useDark()
@@ -28,12 +28,10 @@ function handleCommand(index: string, indexPath: Array<string>, item: any): void
   // router.push(path)
 }
 
-function routeStyle() {
-
-}
+function routeStyle() {}
 
 const api = inject<IRequest>('api')
-api?.get<Array<Privileges>>('/user/menu').then(result => {
+api?.get<Array<Privileges>>('/user/menu').then((result) => {
   navs.value = result.data
 })
 </script>
@@ -41,21 +39,29 @@ api?.get<Array<Privileges>>('/user/menu').then(result => {
 <template>
   <el-container>
     <el-header height="50px" :class="isLogin ? 'nav-header' : ''">
-      <div style="display:flex;align-items:center;justify-content: space-between;" v-show="isLogin">
+      <div
+        style="display: flex; align-items: center; justify-content: space-between"
+        v-show="isLogin"
+      >
         <div class="nav-top">
           <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="25" height="25" />
           <span class="nav-item nav-item-active">产品名称</span>
           <RouterLink to="/" class="home-a">控制台</RouterLink>
         </div>
-        <div style="display: flex;align-items:center;">
-          <el-switch v-model="isDark" @change="toggleDark" style="color: var(--color-background-mute);"
-            :active-action-icon="Moon" :inactive-action-icon="Sunny"></el-switch>
+        <div style="display: flex; align-items: center">
+          <el-switch
+            v-model="isDark"
+            @change="toggleDark"
+            style="color: var(--color-background-mute)"
+            :active-action-icon="Moon"
+            :inactive-action-icon="Sunny"
+          ></el-switch>
           <el-dropdown trigger="hover" @command="handleCommand">
             <el-icon class="avatar">
               <UserFilled />
             </el-icon>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="fa fa-sign-out" command="exit" style="color:orangered;">
+              <el-dropdown-item icon="fa fa-sign-out" command="exit" style="color: orangered">
                 退出系统
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -63,12 +69,18 @@ api?.get<Array<Privileges>>('/user/menu').then(result => {
         </div>
       </div>
     </el-header>
-    <el-container style="height:calc(100vh - 100px);">
+    <el-container style="height: calc(100vh - 100px)">
       <el-container>
         <el-aside>
           <!-- 侧边栏-菜单 -->
           <el-scrollbar>
-            <el-menu default-active="/" class="menu-left" @select="handleCommand" router>
+            <el-menu
+              default-active="/"
+              :default-openeds="['nav0', 'nav1', 'nav2']"
+              class="menu-left"
+              @select="handleCommand"
+              router
+            >
               <el-sub-menu v-for="item in navs" :index="item.key">
                 <template #title>
                   <el-icon>
@@ -91,7 +103,7 @@ api?.get<Array<Privileges>>('/user/menu').then(result => {
       </el-container>
     </el-container>
     <el-footer height="50px" class="nav-footer">
-      <span>Copyright © 2009-{{ $moment().format("YYYY") }} 寰宇通信 版权所有</span>
+      <span>Copyright © 2009-{{ $moment().format('YYYY') }} 寰宇通信 版权所有</span>
     </el-footer>
   </el-container>
 </template>
@@ -148,7 +160,6 @@ api?.get<Array<Privileges>>('/user/menu').then(result => {
 .nav-item-active {
   font-weight: bold;
 }
-
 
 .nav-item a {
   text-decoration: none;

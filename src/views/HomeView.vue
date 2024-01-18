@@ -9,7 +9,7 @@ defineProps<{
 
 store.loading = true
 
-const user: User = { username: '', token: 'AJDOEIPJGENLJZLC' }
+const user: User = { username: '', token: 'Hello World!' }
 
 onMounted(() => {
   store.loading = false
