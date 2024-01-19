@@ -45,7 +45,7 @@ api?.get<Array<Privileges>>('/user/menu').then((result) => {
       >
         <div class="nav-top">
           <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="25" height="25" />
-          <span class="nav-item nav-item-active">产品名称</span>
+          <span class="nav-item nav-item-active">小绿瓶</span>
           <RouterLink to="/" class="home-a">控制台</RouterLink>
         </div>
         <div style="display: flex; align-items: center">

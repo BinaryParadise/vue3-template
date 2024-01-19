@@ -4,6 +4,7 @@ import TheWelcome from '@/components/TheWelcome.vue'
 import PageView from '@/views/PageView.vue'
 import AboutView from '@/views/AboutView.vue'
 import VModelView from '@/views/demo/VModelView.vue'
+import TextSplitView from '@/views/TextSplitView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,7 @@ const router = createRouter({
       component: PageView,
       props: { child: HomeView, msg: 'You did it!' }
     },
+    { path: '/split', component: PageView, props: { child: TextSplitView } },
     {
       path: '/demo/vmodel',
       component: PageView,
