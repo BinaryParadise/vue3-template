@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import TheWelcome from '@/components/TheWelcome.vue'
-import PageView from '@/views/PageView.vue'
-import AboutView from '@/views/AboutView.vue'
-import VModelView from '@/views/demo/VModelView.vue'
-import TextSplitView from '@/views/TextSplitView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
+import TheWelcome from '@/components/TheWelcome.vue';
+import PageView from '@/views/PageView.vue';
+import AboutView from '@/views/AboutView.vue';
+import VModelView from '@/views/demo/VModelView.vue';
+import TextSplitView from '@/views/TextSplitView.vue';
+import IFrameView from '@/views/demo/IFrameView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/demo/vmodel',
       component: PageView,
       props: { child: VModelView }
+    },
+    {
+      path: '/demo/iframe/:id',
+      component: PageView,
+      props: { child: IFrameView }
     },
     {
       path: '/welcome',
@@ -41,6 +47,6 @@ const router = createRouter({
       }
     }
   ]
-})
+});
 
-export default router
+export default router;
