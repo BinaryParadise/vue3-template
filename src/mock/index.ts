@@ -10,7 +10,8 @@ Mock.mock('/api/user/menu', 'get', {
       child: [
         { title: '文本拆分', path: '/split', key: 'split' },
         { title: 'JSON', key: 'json', path: '/json' },
-        { title: 'v-model', path: '/demo/vmodel', key: 'fun1' }
+        { title: 'v-model', path: '/demo/vmodel', key: 'fun1' },
+        { title: 'shell', path: '/demo/shell', key: 'fun.shell' }
       ]
     },
     {

@@ -6,6 +6,7 @@ import AboutView from '@/views/AboutView.vue';
 import VModelView from '@/views/demo/VModelView.vue';
 import TextSplitView from '@/views/TextSplitView.vue';
 import IFrameView from '@/views/demo/IFrameView.vue';
+import ShellTerminalView from '@/views/demo/ShellTerminalView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,7 @@ const router = createRouter({
       component: PageView,
       props: { child: IFrameView }
     },
+    { path: '/demo/shell', component: PageView, props: { child: ShellTerminalView } },
     {
       path: '/welcome',
       name: 'welcome',
