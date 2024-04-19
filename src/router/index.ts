@@ -7,6 +7,7 @@ import VModelView from '@/views/demo/VModelView.vue';
 import TextSplitView from '@/views/TextSplitView.vue';
 import IFrameView from '@/views/demo/IFrameView.vue';
 import ShellTerminalView from '@/views/demo/ShellTerminalView.vue';
+import FlexLayoutView from '@/views/demo/FlexLayoutView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,7 @@ const router = createRouter({
       props: { child: IFrameView }
     },
     { path: '/demo/shell', component: PageView, props: { child: ShellTerminalView } },
+    { path: '/demo/flex', component: PageView, props: { child: FlexLayoutView } },
     {
       path: '/welcome',
       name: 'welcome',

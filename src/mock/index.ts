@@ -11,7 +11,8 @@ Mock.mock('/api/user/menu', 'get', {
         { title: '文本拆分', path: '/split', key: 'split' },
         { title: 'JSON', key: 'json', path: '/json' },
         { title: 'v-model', path: '/demo/vmodel', key: 'fun1' },
-        { title: 'shell', path: '/demo/shell', key: 'fun.shell' }
+        { title: 'shell', path: '/demo/shell', key: 'fun.shell' },
+        { title: 'flex', path: '/demo/flex', key: 'fun.flex' }
       ]
     },
     {
