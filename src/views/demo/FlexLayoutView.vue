@@ -1,10 +1,10 @@
 <template>
   <div style="height: 100%; width: 100%">
     <div class="flexa">
-      <div class="flexa-top"></div>
-      <div class="flexa-content1"></div>
-      <div class="flexa-content2"></div>
-      <div class="flexa-bottom"></div>
+      <div class="flexa_top"></div>
+      <div class="flexa_content1"></div>
+      <div class="flexa_content2"></div>
+      <div class="flexa_bottom"></div>
     </div>
   </div>
 </template>
@@ -16,27 +16,27 @@
   height: 100%;
   flex-direction: column;
   row-gap: 12px;
-  background-color: #2b2b2b;
+  background-color: val(--color-background);
 
-  &-top {
+  &_top {
     height: 50px;
-    background-color: #242424;
+    background-color: var(--color-background-soft);
     border-radius: 4px;
   }
 
-  &-content1 {
+  &_content1 {
     flex: 2;
-    background-color: #242424;
+    background-color: var(--color-background-soft);
   }
 
-  &-content2 {
+  &_content2 {
     flex: 1;
-    background-color: #242424;
+    background-color: var(--color-background-soft);
   }
 
-  &-bottom {
+  &_bottom {
     height: 100px;
-    background-color: #242424;
+    background-color: var(--color-background-soft);
   }
 }
 </style>
